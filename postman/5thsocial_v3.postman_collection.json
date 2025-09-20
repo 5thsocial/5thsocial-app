@@ -1,0 +1,58 @@
+{
+  "info": {
+    "name": "5thSocial v3",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Create Profile",
+      "request": {
+        "method": "POST",
+        "url": "http://localhost:3000/profiles",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"prf_profile_id\": \"{{UUID}}\", \"usr_user_id\": \"{{UUID}}\", \"prf_handle\": \"grego\", \"prf_display_name\": \"Greg O\"}"
+        }
+      }
+    },
+    {
+      "name": "Create Post",
+      "request": {
+        "method": "POST",
+        "url": "http://localhost:3000/posts",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"pst_post_id\": \"{{UUID}}\", \"usr_user_id\": \"{{UUID}}\", \"prf_profile_id\": \"{{UUID}}\", \"pst_type\": \"text\", \"pst_title\": \"Hello\"}"
+        }
+      }
+    },
+    {
+      "name": "Publish Post",
+      "request": {
+        "method": "POST",
+        "url": "http://localhost:3000/posts/{{POST_ID}}/publish"
+      }
+    },
+    {
+      "name": "Activate Campaign",
+      "request": {
+        "method": "POST",
+        "url": "http://localhost:3000/campaigns/{{CMP_ID}}/activate"
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "UUID",
+      "value": "00000000-0000-0000-0000-000000000000"
+    },
+    {
+      "key": "POST_ID",
+      "value": "00000000-0000-0000-0000-000000000000"
+    },
+    {
+      "key": "CMP_ID",
+      "value": "00000000-0000-0000-0000-000000000000"
+    }
+  ]
+}

@@ -1,0 +1,71 @@
+import { z } from 'zod';
+export declare const ProfileCreateDto: z.ZodObject<{
+    prf_profile_id: z.ZodString;
+    usr_user_id: z.ZodString;
+    prf_handle: z.ZodString;
+    prf_display_name: z.ZodString;
+    prf_bio: z.ZodOptional<z.ZodString>;
+    prf_avatar_url: z.ZodOptional<z.ZodString>;
+    prf_banner_url: z.ZodOptional<z.ZodString>;
+    prf_visibility: z.ZodDefault<z.ZodEnum<["public", "followers", "private"]>>;
+    prf_moderation_state: z.ZodDefault<z.ZodEnum<["pending", "approved", "flagged", "removed"]>>;
+    status_code: z.ZodDefault<z.ZodEnum<["active", "hidden", "suspended", "deleted"]>>;
+}, "strip", z.ZodTypeAny, {
+    prf_profile_id: string;
+    usr_user_id: string;
+    prf_handle: string;
+    prf_display_name: string;
+    prf_visibility: "public" | "followers" | "private";
+    prf_moderation_state: "pending" | "approved" | "flagged" | "removed";
+    status_code: "hidden" | "active" | "suspended" | "deleted";
+    prf_bio?: string | undefined;
+    prf_avatar_url?: string | undefined;
+    prf_banner_url?: string | undefined;
+}, {
+    prf_profile_id: string;
+    usr_user_id: string;
+    prf_handle: string;
+    prf_display_name: string;
+    prf_bio?: string | undefined;
+    prf_avatar_url?: string | undefined;
+    prf_banner_url?: string | undefined;
+    prf_visibility?: "public" | "followers" | "private" | undefined;
+    prf_moderation_state?: "pending" | "approved" | "flagged" | "removed" | undefined;
+    status_code?: "hidden" | "active" | "suspended" | "deleted" | undefined;
+}>;
+export type ProfileCreate = z.infer<typeof ProfileCreateDto>;
+export declare const ProfileUpdateDto: z.ZodObject<{
+    prf_profile_id: z.ZodOptional<z.ZodString>;
+    usr_user_id: z.ZodOptional<z.ZodString>;
+    prf_handle: z.ZodOptional<z.ZodString>;
+    prf_display_name: z.ZodOptional<z.ZodString>;
+    prf_bio: z.ZodOptional<z.ZodOptional<z.ZodString>>;
+    prf_avatar_url: z.ZodOptional<z.ZodOptional<z.ZodString>>;
+    prf_banner_url: z.ZodOptional<z.ZodOptional<z.ZodString>>;
+    prf_visibility: z.ZodOptional<z.ZodDefault<z.ZodEnum<["public", "followers", "private"]>>>;
+    prf_moderation_state: z.ZodOptional<z.ZodDefault<z.ZodEnum<["pending", "approved", "flagged", "removed"]>>>;
+    status_code: z.ZodOptional<z.ZodDefault<z.ZodEnum<["active", "hidden", "suspended", "deleted"]>>>;
+}, "strip", z.ZodTypeAny, {
+    prf_profile_id?: string | undefined;
+    usr_user_id?: string | undefined;
+    prf_handle?: string | undefined;
+    prf_display_name?: string | undefined;
+    prf_bio?: string | undefined;
+    prf_avatar_url?: string | undefined;
+    prf_banner_url?: string | undefined;
+    prf_visibility?: "public" | "followers" | "private" | undefined;
+    prf_moderation_state?: "pending" | "approved" | "flagged" | "removed" | undefined;
+    status_code?: "hidden" | "active" | "suspended" | "deleted" | undefined;
+}, {
+    prf_profile_id?: string | undefined;
+    usr_user_id?: string | undefined;
+    prf_handle?: string | undefined;
+    prf_display_name?: string | undefined;
+    prf_bio?: string | undefined;
+    prf_avatar_url?: string | undefined;
+    prf_banner_url?: string | undefined;
+    prf_visibility?: "public" | "followers" | "private" | undefined;
+    prf_moderation_state?: "pending" | "approved" | "flagged" | "removed" | undefined;
+    status_code?: "hidden" | "active" | "suspended" | "deleted" | undefined;
+}>;
+export type ProfileUpdate = z.infer<typeof ProfileUpdateDto>;

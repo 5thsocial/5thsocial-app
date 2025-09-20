@@ -1,0 +1,176 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "5thSocial API",
+    "version": "0.9.0"
+  },
+  "paths": {
+    "/profiles": {
+      "post": {
+        "summary": "Create profile",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "example": {
+                "prf_profile_id": "UUID",
+                "usr_user_id": "UUID",
+                "prf_handle": "grego",
+                "prf_display_name": "Greg O"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        }
+      }
+    },
+    "/posts": {
+      "post": {
+        "summary": "Create post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "example": {
+                "pst_post_id": "UUID",
+                "usr_user_id": "UUID",
+                "prf_profile_id": "UUID",
+                "pst_type": "text",
+                "pst_title": "Hello"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        }
+      }
+    },
+    "/posts/{id}/publish": {
+      "post": {
+        "summary": "Publish a post",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Published"
+          }
+        }
+      }
+    },
+    "/campaigns/{id}/schedule": {
+      "post": {
+        "summary": "Schedule campaign",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Scheduled"
+          }
+        }
+      }
+    },
+    "/campaigns/{id}/activate": {
+      "post": {
+        "summary": "Activate campaign",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Active"
+          }
+        }
+      }
+    },
+    "/campaigns/{id}/pause": {
+      "post": {
+        "summary": "Pause campaign",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paused"
+          }
+        }
+      }
+    },
+    "/campaigns/{id}/finalize": {
+      "post": {
+        "summary": "Finalize campaign",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Completed"
+          }
+        }
+      }
+    },
+    "/missions": {
+      "post": {
+        "summary": "Create mission",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "example": {
+                "msn_mission_id": "UUID",
+                "usr_user_id": "UUID",
+                "msn_name": "Onboard",
+                "msn_objective": "learn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        }
+      }
+    }
+  }
+}

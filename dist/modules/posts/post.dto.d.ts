@@ -1,0 +1,71 @@
+import { z } from 'zod';
+export declare const PostCreateDto: z.ZodObject<{
+    pst_post_id: z.ZodString;
+    usr_user_id: z.ZodString;
+    prf_profile_id: z.ZodString;
+    pst_type: z.ZodEnum<["text", "image", "video", "link", "poll"]>;
+    pst_title: z.ZodOptional<z.ZodString>;
+    pst_body: z.ZodOptional<z.ZodString>;
+    pst_canonical_url: z.ZodOptional<z.ZodString>;
+    pst_tags: z.ZodOptional<z.ZodArray<z.ZodString, "many">>;
+    pst_visibility: z.ZodDefault<z.ZodEnum<["public", "followers", "private"]>>;
+    status_code: z.ZodDefault<z.ZodEnum<["draft", "queued", "published", "moderation", "deleted"]>>;
+}, "strip", z.ZodTypeAny, {
+    prf_profile_id: string;
+    usr_user_id: string;
+    status_code: "deleted" | "draft" | "queued" | "published" | "moderation";
+    pst_post_id: string;
+    pst_type: "text" | "link" | "image" | "video" | "poll";
+    pst_visibility: "public" | "followers" | "private";
+    pst_title?: string | undefined;
+    pst_body?: string | undefined;
+    pst_canonical_url?: string | undefined;
+    pst_tags?: string[] | undefined;
+}, {
+    prf_profile_id: string;
+    usr_user_id: string;
+    pst_post_id: string;
+    pst_type: "text" | "link" | "image" | "video" | "poll";
+    status_code?: "deleted" | "draft" | "queued" | "published" | "moderation" | undefined;
+    pst_title?: string | undefined;
+    pst_body?: string | undefined;
+    pst_canonical_url?: string | undefined;
+    pst_tags?: string[] | undefined;
+    pst_visibility?: "public" | "followers" | "private" | undefined;
+}>;
+export type PostCreate = z.infer<typeof PostCreateDto>;
+export declare const PostUpdateDto: z.ZodObject<{
+    pst_post_id: z.ZodOptional<z.ZodString>;
+    usr_user_id: z.ZodOptional<z.ZodString>;
+    prf_profile_id: z.ZodOptional<z.ZodString>;
+    pst_type: z.ZodOptional<z.ZodEnum<["text", "image", "video", "link", "poll"]>>;
+    pst_title: z.ZodOptional<z.ZodOptional<z.ZodString>>;
+    pst_body: z.ZodOptional<z.ZodOptional<z.ZodString>>;
+    pst_canonical_url: z.ZodOptional<z.ZodOptional<z.ZodString>>;
+    pst_tags: z.ZodOptional<z.ZodOptional<z.ZodArray<z.ZodString, "many">>>;
+    pst_visibility: z.ZodOptional<z.ZodDefault<z.ZodEnum<["public", "followers", "private"]>>>;
+    status_code: z.ZodOptional<z.ZodDefault<z.ZodEnum<["draft", "queued", "published", "moderation", "deleted"]>>>;
+}, "strip", z.ZodTypeAny, {
+    prf_profile_id?: string | undefined;
+    usr_user_id?: string | undefined;
+    status_code?: "deleted" | "draft" | "queued" | "published" | "moderation" | undefined;
+    pst_post_id?: string | undefined;
+    pst_type?: "text" | "link" | "image" | "video" | "poll" | undefined;
+    pst_title?: string | undefined;
+    pst_body?: string | undefined;
+    pst_canonical_url?: string | undefined;
+    pst_tags?: string[] | undefined;
+    pst_visibility?: "public" | "followers" | "private" | undefined;
+}, {
+    prf_profile_id?: string | undefined;
+    usr_user_id?: string | undefined;
+    status_code?: "deleted" | "draft" | "queued" | "published" | "moderation" | undefined;
+    pst_post_id?: string | undefined;
+    pst_type?: "text" | "link" | "image" | "video" | "poll" | undefined;
+    pst_title?: string | undefined;
+    pst_body?: string | undefined;
+    pst_canonical_url?: string | undefined;
+    pst_tags?: string[] | undefined;
+    pst_visibility?: "public" | "followers" | "private" | undefined;
+}>;
+export type PostUpdate = z.infer<typeof PostUpdateDto>;
