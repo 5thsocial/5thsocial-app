@@ -81,7 +81,7 @@ import { HealthModule } from "./modules/health/health.module";
                 password: url.password,
                 tls: isUpstash ? {} : undefined, // Enable TLS for Upstash
                 retryDelayOnFailover: 100,
-                maxRetriesPerRequest: 3,
+                maxRetriesPerRequest: null,
                 lazyConnect: true,
               },
             };
