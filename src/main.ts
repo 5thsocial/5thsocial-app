@@ -10,7 +10,7 @@ import * as express from 'express';
 
 async function bootstrap() {
   const logger = new Logger('Bootstrap');
-  
+   
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
   // Trust proxy for accurate client IPs behind load balancers
@@ -61,13 +61,15 @@ async function bootstrap() {
     allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
   });
 
-  // API versioning
+  // API prefix WITHOUT versioning for now
   app.setGlobalPrefix('api');
-  app.enableVersioning({
-    type: VersioningType.URI,
-    prefix: 'v',
-    defaultVersion: '1',
-  });
+
+  // Comment out versioning temporarily
+  // app.enableVersioning({
+  //   type: VersioningType.URI,
+  //   prefix: 'v',
+  //   defaultVersion: '1',
+  // });
 
   // Global validation pipe
   app.useGlobalPipes(new ValidationPipe({
@@ -94,7 +96,7 @@ async function bootstrap() {
         'access-token',
       )
       .build();
-    
+       
     const document = SwaggerModule.createDocument(app, config);
     SwaggerModule.setup('api/docs', app, document, {
       swaggerOptions: {
@@ -105,7 +107,7 @@ async function bootstrap() {
 
   const port = process.env.PORT || 3000;
   await app.listen(port);
-  
+   
   logger.log(`Application is running on: ${await app.getUrl()}`);
   logger.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
   if (process.env.NODE_ENV !== 'production') {

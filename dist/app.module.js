@@ -42,8 +42,8 @@ exports.AppModule = AppModule = __decorate([
             config_1.ConfigModule.forRoot({
                 isGlobal: true,
                 validate: (config) => {
-                    if (config.NODE_ENV === 'production') {
-                        const required = ['MONGODB_URI', 'JWT_SECRET', 'REDIS_URL'];
+                    if (config.NODE_ENV === "production") {
+                        const required = ["MONGODB_URI", "JWT_SECRET", "REDIS_URL"];
                         for (const key of required) {
                             if (!config[key]) {
                                 throw new Error(`Required environment variable ${key} is missing`);
@@ -51,18 +51,18 @@ exports.AppModule = AppModule = __decorate([
                         }
                     }
                     return config;
-                }
+                },
             }),
             mongoose_1.MongooseModule.forRootAsync({
                 inject: [config_1.ConfigService],
                 useFactory: (cfg) => {
-                    const uri = cfg.get('MONGODB_URI');
+                    const uri = cfg.get("MONGODB_URI");
                     if (!uri) {
-                        throw new Error('MONGODB_URI environment variable is required');
+                        throw new Error("MONGODB_URI environment variable is required");
                     }
                     return {
                         uri,
-                        dbName: cfg.get('MONGODB_DB') || '5thsocial',
+                        dbName: cfg.get("MONGODB_DB") || "5thsocial",
                         maxPoolSize: 50,
                         serverSelectionTimeoutMS: 5000,
                         connectTimeoutMS: 5000,
@@ -73,25 +73,45 @@ exports.AppModule = AppModule = __decorate([
             bullmq_1.BullModule.forRootAsync({
                 inject: [config_1.ConfigService],
                 useFactory: (cfg) => {
-                    const redisUrl = cfg.get('REDIS_URL');
+                    const redisUrl = cfg.get("REDIS_URL");
                     if (redisUrl) {
-                        return { connection: { url: redisUrl } };
+                        try {
+                            const url = new URL(redisUrl);
+                            const isUpstash = url.hostname.includes("upstash.io");
+                            return {
+                                connection: {
+                                    host: url.hostname,
+                                    port: parseInt(url.port) || 6379,
+                                    username: url.username || "default",
+                                    password: url.password,
+                                    tls: isUpstash ? {} : undefined,
+                                    retryDelayOnFailover: 100,
+                                    maxRetriesPerRequest: 3,
+                                    lazyConnect: true,
+                                },
+                            };
+                        }
+                        catch (error) {
+                            console.error("Failed to parse REDIS_URL:", error);
+                        }
                     }
                     return {
                         connection: {
-                            host: cfg.get('REDIS_HOST') || 'localhost',
-                            port: Number(cfg.get('REDIS_PORT')) || 6379,
-                            username: cfg.get('REDIS_USERNAME'),
-                            password: cfg.get('REDIS_PASSWORD'),
-                            tls: cfg.get('REDIS_TLS') === 'true' ? {} : undefined,
-                        }
+                            host: cfg.get("REDIS_HOST") || "localhost",
+                            port: Number(cfg.get("REDIS_PORT")) || 6379,
+                            username: cfg.get("REDIS_USERNAME"),
+                            password: cfg.get("REDIS_PASSWORD"),
+                            tls: cfg.get("REDIS_TLS") === "true" ? {} : undefined,
+                        },
                     };
                 },
             }),
-            throttler_1.ThrottlerModule.forRoot([{
+            throttler_1.ThrottlerModule.forRoot([
+                {
                     ttl: 60000,
                     limit: 100,
-                }]),
+                },
+            ]),
             health_module_1.HealthModule,
             auth_module_1.AuthModule,
             queue_module_1.QueueModule,

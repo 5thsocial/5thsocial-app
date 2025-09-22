@@ -84,11 +84,6 @@ async function bootstrap() {
         allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
     });
     app.setGlobalPrefix('api');
-    app.enableVersioning({
-        type: common_1.VersioningType.URI,
-        prefix: 'v',
-        defaultVersion: '1',
-    });
     app.useGlobalPipes(new common_1.ValidationPipe({
         whitelist: true,
         forbidNonWhitelisted: true,
