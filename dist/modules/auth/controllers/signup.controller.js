@@ -25,18 +25,25 @@ let SignupController = class SignupController {
     }
     async createUser(body) {
         try {
-            const user = await this.signupService.createUser(body);
+            const { token, user } = await this.signupService.createUser(body);
             return {
                 success: true,
-                message: "User created successfully",
-                data: { user }
+                message: "Account created successfully. You are now logged in.",
+                data: { token, user }
             };
         }
         catch (error) {
             const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+            if (errorMessage.includes('already exists')) {
+                return {
+                    success: false,
+                    message: 'An account with this email already exists. Please sign in.',
+                    error: errorMessage
+                };
+            }
             return {
                 success: false,
-                message: "Error creating user",
+                message: "Error creating account",
                 error: errorMessage
             };
         }

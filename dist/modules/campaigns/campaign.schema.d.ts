@@ -10,7 +10,7 @@ export declare const CampaignSchema: Schema<any, import("mongoose").Model<any, a
     cmp_campaign_id: string;
     cmp_name: string;
     cmp_objective: "awareness" | "engagement" | "activation" | "conversion";
-    cmp_channel: ("push" | "email" | "inapp" | "sms" | "social")[];
+    cmp_channel: ("email" | "push" | "inapp" | "sms" | "social")[];
     cmp_budget_cents: number;
     cmp_rate_limit_per_min: number;
     status_date?: NativeDate | null | undefined;
@@ -26,7 +26,7 @@ export declare const CampaignSchema: Schema<any, import("mongoose").Model<any, a
     cmp_campaign_id: string;
     cmp_name: string;
     cmp_objective: "awareness" | "engagement" | "activation" | "conversion";
-    cmp_channel: ("push" | "email" | "inapp" | "sms" | "social")[];
+    cmp_channel: ("email" | "push" | "inapp" | "sms" | "social")[];
     cmp_budget_cents: number;
     cmp_rate_limit_per_min: number;
     status_date?: NativeDate | null | undefined;
@@ -47,7 +47,7 @@ export declare const CampaignSchema: Schema<any, import("mongoose").Model<any, a
     cmp_campaign_id: string;
     cmp_name: string;
     cmp_objective: "awareness" | "engagement" | "activation" | "conversion";
-    cmp_channel: ("push" | "email" | "inapp" | "sms" | "social")[];
+    cmp_channel: ("email" | "push" | "inapp" | "sms" | "social")[];
     cmp_budget_cents: number;
     cmp_rate_limit_per_min: number;
     status_date?: NativeDate | null | undefined;

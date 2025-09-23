@@ -1,3 +1,4 @@
+// src/modules/auth/controllers/signup.controller.ts (Updated - Return token in response)
 import { Controller, Post, Body, UseGuards } from '@nestjs/common';
 import { Throttle, ThrottlerGuard } from '@nestjs/throttler';
 import { SignupService } from '../services/signup.service';
@@ -10,20 +11,29 @@ export class SignupController {
   constructor(private readonly signupService: SignupService) {}
 
   @Post()
-  @Throttle({ default: { limit: 10, ttl: 60000 } }) // 10 signups per minute per IP
+  @Throttle({ default: { limit: 10, ttl: 60000 } })
   async createUser(@Body(new ZodValidationPipe(SignupDto)) body: SignupDto) {
     try {
-      const user = await this.signupService.createUser(body);
+      const { token, user } = await this.signupService.createUser(body);  // Now returns {token, user}
       return {
         success: true,
-        message: "User created successfully",
-        data: { user }
+        message: "Account created successfully. You are now logged in.",
+        data: { token, user }
       };
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      
+      if (errorMessage.includes('already exists')) {
+        return {
+          success: false,
+          message: 'An account with this email already exists. Please sign in.',
+          error: errorMessage
+        };
+      }
+      
       return {
         success: false,
-        message: "Error creating user",
+        message: "Error creating account",
         error: errorMessage
       };
     }

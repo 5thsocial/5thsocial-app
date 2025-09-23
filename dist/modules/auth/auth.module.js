@@ -42,7 +42,10 @@ exports.AuthModule = AuthModule = __decorate([
                 { name: user_model_1.User.name, schema: user_model_1.UserSchema },
                 { name: otp_model_1.OTP.name, schema: otp_model_1.OTPSchema }
             ]),
-            passport_1.PassportModule,
+            passport_1.PassportModule.register({
+                session: true,
+                defaultStrategy: 'jwt'
+            }),
             jwt_1.JwtModule.registerAsync({
                 imports: [config_1.ConfigModule],
                 useFactory: async (configService) => {
@@ -83,7 +86,7 @@ exports.AuthModule = AuthModule = __decorate([
             profile_service_1.ProfileService,
             user_service_1.UserService
         ],
-        exports: [passport_1.PassportModule, jwt_1.JwtModule]
+        exports: [passport_1.PassportModule, jwt_1.JwtModule, user_service_1.UserService]
     })
 ], AuthModule);
 //# sourceMappingURL=auth.module.js.map

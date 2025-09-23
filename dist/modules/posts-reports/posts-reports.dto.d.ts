@@ -28,14 +28,14 @@ export declare const PostsReportsUpdateDto: z.ZodObject<{
 }, "strip", z.ZodTypeAny, {
     usr_user_id?: string | undefined;
     status_code?: "deleted" | "open" | "reviewed" | "dismissed" | undefined;
+    reason?: string | undefined;
     parent_id?: string | undefined;
     posts_reports_id?: string | undefined;
-    reason?: string | undefined;
 }, {
     usr_user_id?: string | undefined;
     status_code?: "deleted" | "open" | "reviewed" | "dismissed" | undefined;
+    reason?: string | undefined;
     parent_id?: string | undefined;
     posts_reports_id?: string | undefined;
-    reason?: string | undefined;
 }>;
 export type PostsReportsUpdate = z.infer<typeof PostsReportsUpdateDto>;

@@ -16,9 +16,9 @@ export declare const ProfileSchema: Schema<any, import("mongoose").Model<any, an
     prf_bio?: string | null | undefined;
     prf_avatar_url?: string | null | undefined;
     prf_banner_url?: string | null | undefined;
+    prf_moderation_reason?: string | null | undefined;
     status_date?: NativeDate | null | undefined;
     deleted_at?: NativeDate | null | undefined;
-    prf_moderation_reason?: string | null | undefined;
 }, import("mongoose").Document<unknown, {}, import("mongoose").FlatRecord<{} & {
     prf_profile_id: string;
     usr_user_id: string;
@@ -31,9 +31,9 @@ export declare const ProfileSchema: Schema<any, import("mongoose").Model<any, an
     prf_bio?: string | null | undefined;
     prf_avatar_url?: string | null | undefined;
     prf_banner_url?: string | null | undefined;
+    prf_moderation_reason?: string | null | undefined;
     status_date?: NativeDate | null | undefined;
     deleted_at?: NativeDate | null | undefined;
-    prf_moderation_reason?: string | null | undefined;
 }>, {}, import("mongoose").ResolveSchemaOptions<{
     timestamps: {
         createdAt: string;
@@ -51,9 +51,9 @@ export declare const ProfileSchema: Schema<any, import("mongoose").Model<any, an
     prf_bio?: string | null | undefined;
     prf_avatar_url?: string | null | undefined;
     prf_banner_url?: string | null | undefined;
+    prf_moderation_reason?: string | null | undefined;
     status_date?: NativeDate | null | undefined;
     deleted_at?: NativeDate | null | undefined;
-    prf_moderation_reason?: string | null | undefined;
 }> & {
     _id: import("mongoose").Types.ObjectId;
 } & {

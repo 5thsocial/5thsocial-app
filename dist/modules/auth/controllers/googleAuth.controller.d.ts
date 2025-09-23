@@ -4,26 +4,8 @@ export declare class GoogleAuthController {
     private readonly googleAuthService;
     private readonly logger;
     constructor(googleAuthService: GoogleAuthService);
-    googleCallback(req: Request, res: Response): Promise<{
-        url: string;
-    }>;
-    getGoogleAuthUrl(): Promise<{
-        success: boolean;
-        message: string;
-        data: {
-            authUrl: string;
-        };
-    } | {
-        success: boolean;
-        message: string;
-        data?: undefined;
-    }>;
-    googleSuccess(): Promise<{
-        success: boolean;
-        message: string;
-    }>;
-    googleFailure(): Promise<{
-        success: boolean;
-        message: string;
-    }>;
+    googleAuth(): Promise<void>;
+    googleCallback(req: Request, res: Response): Promise<Response<any, Record<string, any>>>;
+    private createSuccessPage;
+    private createErrorPage;
 }

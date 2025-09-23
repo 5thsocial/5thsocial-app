@@ -15,7 +15,7 @@ export declare const PostCreateDto: z.ZodObject<{
     usr_user_id: string;
     status_code: "deleted" | "draft" | "queued" | "published" | "moderation";
     pst_post_id: string;
-    pst_type: "text" | "link" | "image" | "video" | "poll";
+    pst_type: "link" | "text" | "poll" | "image" | "video";
     pst_visibility: "public" | "followers" | "private";
     pst_title?: string | undefined;
     pst_body?: string | undefined;
@@ -25,7 +25,7 @@ export declare const PostCreateDto: z.ZodObject<{
     prf_profile_id: string;
     usr_user_id: string;
     pst_post_id: string;
-    pst_type: "text" | "link" | "image" | "video" | "poll";
+    pst_type: "link" | "text" | "poll" | "image" | "video";
     status_code?: "deleted" | "draft" | "queued" | "published" | "moderation" | undefined;
     pst_title?: string | undefined;
     pst_body?: string | undefined;
@@ -50,7 +50,7 @@ export declare const PostUpdateDto: z.ZodObject<{
     usr_user_id?: string | undefined;
     status_code?: "deleted" | "draft" | "queued" | "published" | "moderation" | undefined;
     pst_post_id?: string | undefined;
-    pst_type?: "text" | "link" | "image" | "video" | "poll" | undefined;
+    pst_type?: "link" | "text" | "poll" | "image" | "video" | undefined;
     pst_title?: string | undefined;
     pst_body?: string | undefined;
     pst_canonical_url?: string | undefined;
@@ -61,7 +61,7 @@ export declare const PostUpdateDto: z.ZodObject<{
     usr_user_id?: string | undefined;
     status_code?: "deleted" | "draft" | "queued" | "published" | "moderation" | undefined;
     pst_post_id?: string | undefined;
-    pst_type?: "text" | "link" | "image" | "video" | "poll" | undefined;
+    pst_type?: "link" | "text" | "poll" | "image" | "video" | undefined;
     pst_title?: string | undefined;
     pst_body?: string | undefined;
     pst_canonical_url?: string | undefined;

@@ -1,4 +1,5 @@
-import { Controller, Get, Req, Res, Redirect, Logger, UseGuards } from '@nestjs/common';
+import { Controller, Get, Req, Res, UseGuards, Logger } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { Throttle, ThrottlerGuard } from '@nestjs/throttler';
 import { Request, Response } from 'express';
 import { GoogleAuthService } from '../services/googleAuth.service';
@@ -10,15 +11,23 @@ export class GoogleAuthController {
 
   constructor(private readonly googleAuthService: GoogleAuthService) {}
 
+  @Get()
+  @UseGuards(AuthGuard('google'))
+  @Throttle({ default: { limit: 5, ttl: 60000 } })
+  async googleAuth() {
+    // This route initiates Google OAuth
+    // Passport will handle the redirect to Google
+  }
+
   @Get('callback')
-  @Redirect()
+  @UseGuards(AuthGuard('google'))
   @Throttle({ default: { limit: 5, ttl: 60000 } })
   async googleCallback(@Req() req: Request, @Res() res: Response) {
     try {
       if (!req.user) {
         const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
-        const errorUrl = `${frontendUrl}/google-success.html?error=${encodeURIComponent('Google authentication failed - no user data received')}`;
-        return { url: errorUrl };
+        const html = this.createErrorPage(frontendUrl, 'Google authentication failed - no user data received');
+        return res.send(html);
       }
 
       const result = await this.googleAuthService.handleGoogleAuth(req.user);
@@ -27,85 +36,123 @@ export class GoogleAuthController {
         const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
         const { user, token } = result.data;
         
-        const successUrl = `${frontendUrl}/google-success.html?` +
-          `token=${encodeURIComponent(token)}&` +
-          `user=${encodeURIComponent(JSON.stringify(user))}&` +
-          `message=${encodeURIComponent(result.message || 'Google authentication successful')}`;
+        const html = this.createSuccessPage(frontendUrl, {
+          token,
+          user,
+          message: result.message || 'Google authentication successful'
+        });
         
-        return { url: successUrl };
+        return res.send(html);
       } else {
         const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
-        const errorUrl = `${frontendUrl}/google-success.html?error=${encodeURIComponent('Authentication failed')}`;
-        return { url: errorUrl };
+        const html = this.createErrorPage(frontendUrl, 'Google authentication failed');
+        return res.send(html);
       }
 
     } catch (error) {
       this.logger.error('Google callback error', error);
       
       const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
-      const errorUrl = `${frontendUrl}/google-success.html?error=${encodeURIComponent('Internal server error during Google authentication')}`;
-      return { url: errorUrl };
+      const html = this.createErrorPage(frontendUrl, 'Internal server error during Google authentication');
+      return res.send(html);
     }
   }
 
-  @Get('auth-url')
-  @Throttle({ default: { limit: 5, ttl: 60000 } })
-  async getGoogleAuthUrl() {
-    try {
-      const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?` +
-        `client_id=${process.env.GOOGLE_CLIENT_ID}&` +
-        `redirect_uri=${process.env.GOOGLE_CALLBACK_URL || 'http://localhost:3000/api/auth/google/callback'}&` +
-        `response_type=code&` +
-        `scope=profile email&` +
-        `access_type=offline&` +
-        `prompt=consent`;
-
-      return {
-        success: true,
-        message: 'Google OAuth URL generated',
-        data: {
-          authUrl: googleAuthUrl
-        }
-      };
-
-    } catch (error) {
-      this.logger.error('Google auth URL error', error);
-      return {
-        success: false,
-        message: 'Error generating Google OAuth URL'
-      };
-    }
+  private createSuccessPage(frontendUrl: string, data: { token: string; user: any; message: string }) {
+    const { token, user, message } = data;
+    const userJson = JSON.stringify(user).replace(/"/g, '&quot;');
+    
+    return `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <title>Google Authentication</title>
+        <style>
+          body { font-family: Arial, sans-serif; text-align: center; padding: 50px; }
+          .success { color: #28a745; }
+          .loading { margin: 20px 0; }
+        </style>
+      </head>
+      <body>
+        <div class="loading">
+          <div>Processing Google authentication...</div>
+          <div style="margin-top: 20px;">
+            <div style="width: 20px; height: 20px; border: 2px solid #4285f4; border-top: 2px solid transparent; border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto;"></div>
+          </div>
+        </div>
+        <style>
+          @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+          }
+        </style>
+        <script>
+          try {
+            if (window.opener) {
+              window.opener.postMessage({
+                type: 'GOOGLE_AUTH_SUCCESS',
+                data: {
+                  token: '${token}',
+                  user: JSON.parse('${userJson}'),
+                  message: '${message}'
+                }
+              }, '${frontendUrl}');
+              window.close();
+            } else {
+              localStorage.setItem('authToken', '${token}');
+              localStorage.setItem('user', '${userJson}');
+              window.location.href = '${frontendUrl}';
+            }
+          } catch (error) {
+            console.error('Authentication processing error:', error);
+            if (window.opener) {
+              window.opener.postMessage({
+                type: 'GOOGLE_AUTH_ERROR',
+                error: 'Failed to process authentication'
+              }, '${frontendUrl}');
+              window.close();
+            } else {
+              window.location.href = '${frontendUrl}?error=auth_processing_failed';
+            }
+          }
+        </script>
+      </body>
+      </html>
+    `;
   }
 
-  @Get('success')
-  async googleSuccess() {
-    try {
-      return {
-        success: true,
-        message: 'Google authentication successful. Please use the callback endpoint for API integration.'
-      };
-    } catch (error) {
-      this.logger.error('Google success error', error);
-      return {
-        success: false,
-        message: 'Internal server error'
-      };
-    }
-  }
-
-  @Get('failure')
-  async googleFailure() {
-    try {
-      return {
-        success: false,
-        message: 'Google authentication failed'
-      };
-    } catch (error) {
-      this.logger.error('Google failure error', error);
-      return {
-        success: false,
-        message: 'Internal server error'
-      };
-    }
+  private createErrorPage(frontendUrl: string, errorMessage: string) {
+    return `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <title>Google Authentication Error</title>
+        <style>
+          body { font-family: Arial, sans-serif; text-align: center; padding: 50px; }
+          .error { color: #dc3545; }
+        </style>
+      </head>
+      <body>
+        <div class="error">
+          <h2>Authentication Error</h2>
+          <p>${errorMessage}</p>
+          <p>Redirecting...</p>
+        </div>
+        <script>
+          if (window.opener) {
+            window.opener.postMessage({
+              type: 'GOOGLE_AUTH_ERROR',
+              error: '${errorMessage}'
+            }, '${frontendUrl}');
+            window.close();
+          } else {
+            setTimeout(() => {
+              window.location.href = '${frontendUrl}?error=' + encodeURIComponent('${errorMessage}');
+            }, 2000);
+          }
+        </script>
+      </body>
+      </html>
+    `;
   }
 }

@@ -30,7 +30,10 @@ import { UserController } from './controllers/user.controller';
       { name: User.name, schema: UserSchema },
       { name: OTP.name, schema: OTPSchema }
     ]),
-    PassportModule,
+    PassportModule.register({ 
+      session: true,  // Enable session support for OAuth
+      defaultStrategy: 'jwt'
+    }),
     JwtModule.registerAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => {
@@ -71,6 +74,6 @@ import { UserController } from './controllers/user.controller';
     ProfileService,
     UserService
   ],
-  exports: [PassportModule, JwtModule]
+  exports: [PassportModule, JwtModule, UserService]
 })
 export class AuthModule {}

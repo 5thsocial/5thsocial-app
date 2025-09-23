@@ -9,7 +9,7 @@ export declare const PostSchema: Schema<any, import("mongoose").Model<any, any, 
     usr_user_id: string;
     status_code: "deleted" | "draft" | "queued" | "published" | "moderation";
     pst_post_id: string;
-    pst_type: "text" | "link" | "image" | "video" | "poll";
+    pst_type: "link" | "text" | "poll" | "image" | "video";
     pst_tags: string[];
     pst_visibility: "public" | "followers" | "private";
     pst_attachments_count: number;
@@ -24,7 +24,7 @@ export declare const PostSchema: Schema<any, import("mongoose").Model<any, any, 
     usr_user_id: string;
     status_code: "deleted" | "draft" | "queued" | "published" | "moderation";
     pst_post_id: string;
-    pst_type: "text" | "link" | "image" | "video" | "poll";
+    pst_type: "link" | "text" | "poll" | "image" | "video";
     pst_tags: string[];
     pst_visibility: "public" | "followers" | "private";
     pst_attachments_count: number;
@@ -44,7 +44,7 @@ export declare const PostSchema: Schema<any, import("mongoose").Model<any, any, 
     usr_user_id: string;
     status_code: "deleted" | "draft" | "queued" | "published" | "moderation";
     pst_post_id: string;
-    pst_type: "text" | "link" | "image" | "video" | "poll";
+    pst_type: "link" | "text" | "poll" | "image" | "video";
     pst_tags: string[];
     pst_visibility: "public" | "followers" | "private";
     pst_attachments_count: number;

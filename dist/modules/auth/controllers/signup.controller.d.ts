@@ -7,10 +7,12 @@ export declare class SignupController {
         success: boolean;
         message: string;
         data: {
-            user: import("mongoose").Document<unknown, {}, import("../models/user.model").User, {}, {}> & import("../models/user.model").User & Required<{
-                _id: unknown;
-            }> & {
-                __v: number;
+            token: string;
+            user: {
+                id: unknown;
+                name: string;
+                email: string;
+                roles: string[];
             };
         };
         error?: undefined;

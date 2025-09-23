@@ -7,6 +7,7 @@ import compression from 'compression';
 import rateLimit from 'express-rate-limit';
 import { AppModule } from './app.module';
 import * as express from 'express';
+import session from 'express-session';
 
 async function bootstrap() {
   const logger = new Logger('Bootstrap');
@@ -15,6 +16,19 @@ async function bootstrap() {
 
   // Trust proxy for accurate client IPs behind load balancers
   app.set('trust proxy', 1);
+
+  // SESSION MIDDLEWARE (required for Passport OAuth)
+  app.use(session({
+    secret: process.env.SESSION_SECRET || 'your-session-secret',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      secure: process.env.NODE_ENV === 'production',
+      httpOnly: true,
+      maxAge: 24 * 60 * 60 * 1000, // 24 hours
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax'
+    }
+  }));
 
   // Security middleware
   app.use(helmet({
@@ -63,13 +77,6 @@ async function bootstrap() {
 
   // API prefix WITHOUT versioning for now
   app.setGlobalPrefix('api');
-
-  // Comment out versioning temporarily
-  // app.enableVersioning({
-  //   type: VersioningType.URI,
-  //   prefix: 'v',
-  //   defaultVersion: '1',
-  // });
 
   // Global validation pipe
   app.useGlobalPipes(new ValidationPipe({

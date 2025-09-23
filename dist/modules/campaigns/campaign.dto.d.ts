@@ -18,7 +18,7 @@ export declare const CampaignCreateDto: z.ZodObject<{
     cmp_campaign_id: string;
     cmp_name: string;
     cmp_objective: "awareness" | "engagement" | "activation" | "conversion";
-    cmp_channel: ("push" | "email" | "inapp" | "sms" | "social")[];
+    cmp_channel: ("email" | "push" | "inapp" | "sms" | "social")[];
     cmp_budget_cents: number;
     cmp_rate_limit_per_min: number;
     usr_user_id?: string | undefined;
@@ -34,7 +34,7 @@ export declare const CampaignCreateDto: z.ZodObject<{
     usr_user_id?: string | undefined;
     status_code?: "active" | "deleted" | "draft" | "scheduled" | "paused" | "completed" | "failed" | undefined;
     cmp_description?: string | undefined;
-    cmp_channel?: ("push" | "email" | "inapp" | "sms" | "social")[] | undefined;
+    cmp_channel?: ("email" | "push" | "inapp" | "sms" | "social")[] | undefined;
     cmp_start_at?: Date | undefined;
     cmp_end_at?: Date | undefined;
     cmp_timezone?: string | undefined;
@@ -64,7 +64,7 @@ export declare const CampaignUpdateDto: z.ZodObject<{
     cmp_name?: string | undefined;
     cmp_description?: string | undefined;
     cmp_objective?: "awareness" | "engagement" | "activation" | "conversion" | undefined;
-    cmp_channel?: ("push" | "email" | "inapp" | "sms" | "social")[] | undefined;
+    cmp_channel?: ("email" | "push" | "inapp" | "sms" | "social")[] | undefined;
     cmp_start_at?: Date | undefined;
     cmp_end_at?: Date | undefined;
     cmp_timezone?: string | undefined;
@@ -78,7 +78,7 @@ export declare const CampaignUpdateDto: z.ZodObject<{
     cmp_name?: string | undefined;
     cmp_description?: string | undefined;
     cmp_objective?: "awareness" | "engagement" | "activation" | "conversion" | undefined;
-    cmp_channel?: ("push" | "email" | "inapp" | "sms" | "social")[] | undefined;
+    cmp_channel?: ("email" | "push" | "inapp" | "sms" | "social")[] | undefined;
     cmp_start_at?: Date | undefined;
     cmp_end_at?: Date | undefined;
     cmp_timezone?: string | undefined;

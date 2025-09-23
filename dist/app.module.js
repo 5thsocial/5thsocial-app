@@ -86,7 +86,7 @@ exports.AppModule = AppModule = __decorate([
                                     password: url.password,
                                     tls: isUpstash ? {} : undefined,
                                     retryDelayOnFailover: 100,
-                                    maxRetriesPerRequest: 3,
+                                    maxRetriesPerRequest: null,
                                     lazyConnect: true,
                                 },
                             };
