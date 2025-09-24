@@ -1,4 +1,18 @@
-import { NavService } from './nav.service';
+import { NavService } from "./nav.service";
+interface MenuResponse {
+    menu: MenuItemResponse[];
+    defaultRoute?: {
+        app: string;
+        view: string;
+    };
+}
+interface MenuItemResponse {
+    key: string;
+    label: string;
+    app: string;
+    view: string;
+    icon: string;
+}
 export declare class NavController {
     private readonly svc;
     constructor(svc: NavService);
@@ -10,11 +24,6 @@ export declare class NavController {
     apps(): Promise<{
         apps: any;
     }>;
-    menu(app: string): Promise<{
-        menu: any;
-        defaultRoute: {
-            app: string;
-            view: any;
-        } | undefined;
-    }>;
+    menu(app: string): Promise<MenuResponse>;
 }
+export {};

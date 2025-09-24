@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.NavManifestSchema = exports.NavManifest = void 0;
 const mongoose_1 = require("@nestjs/mongoose");
+const mongoose_2 = require("mongoose");
 let NavManifest = class NavManifest {
     version;
     data;
@@ -21,11 +22,16 @@ __decorate([
     __metadata("design:type", String)
 ], NavManifest.prototype, "version", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ type: Object, required: true }),
+    (0, mongoose_1.Prop)({
+        type: mongoose_2.Schema.Types.Mixed,
+        required: true
+    }),
     __metadata("design:type", Object)
 ], NavManifest.prototype, "data", void 0);
 exports.NavManifest = NavManifest = __decorate([
     (0, mongoose_1.Schema)({ collection: 'nav_manifests', timestamps: true })
 ], NavManifest);
 exports.NavManifestSchema = mongoose_1.SchemaFactory.createForClass(NavManifest);
+exports.NavManifestSchema.set('minimize', false);
+exports.NavManifestSchema.set('strict', false);
 //# sourceMappingURL=nav-manifest.schema.js.map

@@ -1,5 +1,5 @@
-import { Model } from 'mongoose';
-import { NavManifestDocument } from './nav-manifest.schema';
+import { Model } from "mongoose";
+import { NavManifestDocument } from "./nav-manifest.schema";
 export declare class NavService {
     private model;
     constructor(model: Model<NavManifestDocument>);
