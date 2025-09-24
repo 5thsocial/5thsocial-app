@@ -3,10 +3,10 @@ export declare const LoginDto: z.ZodObject<{
     email: z.ZodString;
     password: z.ZodString;
 }, "strip", z.ZodTypeAny, {
-    email: string;
     password: string;
+    email: string;
 }, {
-    email: string;
     password: string;
+    email: string;
 }>;
 export type LoginDto = z.infer<typeof LoginDto>;

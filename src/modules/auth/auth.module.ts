@@ -77,4 +77,3 @@ import { UserController } from './controllers/user.controller';
   exports: [PassportModule, JwtModule, UserService]
 })
 export class AuthModule {}
-

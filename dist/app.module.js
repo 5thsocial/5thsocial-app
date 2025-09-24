@@ -8,6 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
+const nav_module_1 = require("./modules/pilotnav/nav.module");
 const config_1 = require("@nestjs/config");
 const mongoose_1 = require("@nestjs/mongoose");
 const bullmq_1 = require("@nestjs/bullmq");
@@ -39,6 +40,7 @@ exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
+            nav_module_1.NavModule,
             config_1.ConfigModule.forRoot({
                 isGlobal: true,
                 validate: (config) => {

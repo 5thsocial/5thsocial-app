@@ -1,4 +1,5 @@
 import { Module } from "@nestjs/common";
+import { NavModule } from "./modules/pilotnav/nav.module";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { MongooseModule } from "@nestjs/mongoose";
 import { BullModule } from "@nestjs/bullmq";
@@ -27,6 +28,7 @@ import { HealthModule } from "./modules/health/health.module";
 
 @Module({
   imports: [
+    NavModule,
     ConfigModule.forRoot({
       isGlobal: true,
       validate: (config) => {

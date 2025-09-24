@@ -5,11 +5,11 @@ export declare const SignupDto: z.ZodObject<{
     password: z.ZodString;
 }, "strip", z.ZodTypeAny, {
     name: string;
-    email: string;
     password: string;
+    email: string;
 }, {
     name: string;
-    email: string;
     password: string;
+    email: string;
 }>;
 export type SignupDto = z.infer<typeof SignupDto>;
